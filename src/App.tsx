@@ -17,7 +17,7 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import ThankYou from '@/components/ThankYou';
 
-function LandingPage() {
+function LandingPage() { 
   useEffect(() => {
     // Init scroll depth tracking
     const cleanup = initScrollDepth();
