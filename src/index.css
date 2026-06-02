@@ -1,103 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --yellow: #f7cd41;
-  --blue: #2c6dcb;
-  --cream: #fff3cb;
-  --dark: #242424;
-  --blue-dark: #1a4d9e;
-  --blue-light: #e8f0fb;
-  --yellow-dark: #d4a800;
+  --background: oklch(0.99 0.005 230);
+  --foreground: oklch(0.18 0.04 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.04 250);
+  --primary: oklch(0.42 0.16 255);
+  --primary-foreground: oklch(0.99 0.005 230);
+  --secondary: oklch(0.96 0.02 240);
+  --secondary-foreground: oklch(0.22 0.06 255);
+  --muted: oklch(0.96 0.015 240);
+  --muted-foreground: oklch(0.5 0.03 250);
+  --accent: oklch(0.72 0.18 145);
+  --accent-foreground: oklch(0.15 0.05 150);
+  --border: oklch(0.92 0.015 240);
+  --ring: oklch(0.42 0.16 255);
+  --highlight: oklch(0.78 0.17 75);
+  --whatsapp: oklch(0.65 0.18 145);
+  --whatsapp-foreground: oklch(1 0 0);
+  --gradient-hero: linear-gradient(135deg, oklch(0.32 0.14 258) 0%, oklch(0.45 0.18 255) 50%, oklch(0.55 0.17 230) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.65 0.2 145), oklch(0.78 0.17 165));
+  --shadow-elegant: 0 20px 60px -20px oklch(0.42 0.16 255 / 0.35);
+  --shadow-soft: 0 8px 30px -10px oklch(0.18 0.04 250 / 0.12);
 }
 
-* {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: var(--dark);
-  background: #fff;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Syne', sans-serif;
-}
-
-/* Focus visible for accessibility */
-*:focus-visible {
-  outline: 3px solid var(--yellow);
-  outline-offset: 2px;
-}
-
-/* Scroll reveal animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--blue);
-  border-radius: 3px;
-}
-
-/* WhatsApp float pulse */
-@keyframes whatsapp-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
-  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-}
-
-.whatsapp-pulse {
-  animation: whatsapp-pulse 2s infinite;
-}
-
-/* Hero diagonal */
-.hero-clip {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-}
-
-@media (max-width: 768px) {
-  .hero-clip {
-    clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-}
-
-/* Noise texture overlay */
-.noise-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Yellow diagonal stripe decoration */
-.stripe-decoration {
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 8px,
-    rgba(247, 205, 65, 0.12) 8px,
-    rgba(247, 205, 65, 0.12) 16px
-  );
+  h1, h2, h3, h4 { letter-spacing: -0.02em; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 }

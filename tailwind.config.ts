@@ -1,37 +1,48 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
-      colors: {
-        brand: {
-          yellow: '#f7cd41',
-          blue: '#2c6dcb',
-          cream: '#fff3cb',
-          dark: '#242424',
-        },
-      },
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        body: ['Plus Jakarta Sans', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
-      animation: {
-        'fade-up': 'fadeUp 0.6s ease forwards',
-        'fade-in': 'fadeIn 0.5s ease forwards',
-        'bounce-slow': 'bounce 2s infinite',
-        'pulse-slow': 'pulse 3s infinite',
+      colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        secondary: 'var(--secondary)',
+        'secondary-foreground': 'var(--secondary-foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
+        border: 'var(--border)',
+        ring: 'var(--ring)',
+        whatsapp: 'var(--whatsapp)',
+        'whatsapp-foreground': 'var(--whatsapp-foreground)',
+        highlight: 'var(--highlight)',
       },
-      keyframes: {
-        fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(24px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
+      borderRadius: {
+        lg: '0.875rem',
+        xl: '1.125rem',
+        '2xl': '1.375rem',
+        '3xl': '1.75rem',
+      },
+      backgroundImage: {
+        'gradient-hero': 'var(--gradient-hero)',
+        'gradient-accent': 'var(--gradient-accent)',
+      },
+      boxShadow: {
+        elegant: 'var(--shadow-elegant)',
+        soft: 'var(--shadow-soft)',
       },
     },
   },
   plugins: [],
-};
+}
+
+export default config
