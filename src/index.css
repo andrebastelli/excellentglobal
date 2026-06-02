@@ -3,27 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --background: oklch(0.99 0.005 230);
-  --foreground: oklch(0.18 0.04 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.04 250);
-  --primary: oklch(0.42 0.16 255);
-  --primary-foreground: oklch(0.99 0.005 230);
-  --secondary: oklch(0.96 0.02 240);
-  --secondary-foreground: oklch(0.22 0.06 255);
-  --muted: oklch(0.96 0.015 240);
-  --muted-foreground: oklch(0.5 0.03 250);
-  --accent: oklch(0.72 0.18 145);
-  --accent-foreground: oklch(0.15 0.05 150);
-  --border: oklch(0.92 0.015 240);
-  --ring: oklch(0.42 0.16 255);
-  --highlight: oklch(0.78 0.17 75);
-  --whatsapp: oklch(0.65 0.18 145);
-  --whatsapp-foreground: oklch(1 0 0);
-  --gradient-hero: linear-gradient(135deg, oklch(0.32 0.14 258) 0%, oklch(0.45 0.18 255) 50%, oklch(0.55 0.17 230) 100%);
-  --gradient-accent: linear-gradient(135deg, oklch(0.65 0.2 145), oklch(0.78 0.17 165));
-  --shadow-elegant: 0 20px 60px -20px oklch(0.42 0.16 255 / 0.35);
-  --shadow-soft: 0 8px 30px -10px oklch(0.18 0.04 250 / 0.12);
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --primary: #2b6dcb;
+  --primary-foreground: #ffffff;
+  --secondary: #f7cd41;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f5f5f5;
+  --muted-foreground: #808080;
+  --accent: #dca919;
+  --accent-foreground: #1a1a1a;
+  --border: #e0e0e0;
+  --ring: #2b6dcb;
+  --highlight: #fff3cb;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #ffffff;
+  --gradient-hero: linear-gradient(135deg, #2b6dcb 0%, #1e5aa8 50%, #4a8fd8 100%);
+  --gradient-accent: linear-gradient(135deg, #f7cd41, #dca919);
+  --shadow-elegant: 0 20px 60px -20px rgba(43, 109, 203, 0.35);
+  --shadow-soft: 0 8px 30px -10px rgba(26, 26, 26, 0.12);
 }
 
 @layer base {

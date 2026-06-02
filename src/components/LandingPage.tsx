@@ -7,6 +7,7 @@ import {
   MessageCircle, CheckCircle2, GraduationCap, Users, Award, Sparkles,
   Clock, Globe2, Building2, Mic, RotateCw, Star, MapPin, Phone, ChevronDown,
 } from "lucide-react";
+import egLogo from "@/assets/eg-logo.png";
 
 // ============================================================
 // EDITE AQUI: número do WhatsApp (ou defina VITE_WHATSAPP_NUMBER no .env)
@@ -58,21 +59,37 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/60">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-5 py-3.5">
-          <a href="#top" className="flex items-center gap-2 font-extrabold text-primary">
-            <div className="h-9 w-9 rounded-xl bg-gradient-hero grid place-items-center text-white">
-              <Globe2 className="h-5 w-5" />
-            </div>
-            <span className="text-base sm:text-lg">Excellent Global</span>
-          </a>
-          <CTA event="click_whatsapp_header" variant="whatsapp" className="hidden sm:inline-flex !py-2.5 !px-5 !text-sm">
-            <MessageCircle className="h-4 w-4" /> WhatsApp
-          </CTA>
-        </div>
-      </header>
+<header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/60">
+  <div className="mx-auto max-w-7xl flex items-center justify-between px-5 py-3.5">
+    <a href="#top" className="flex items-center">
+  <span
+    className="block h-11 w-[180px] bg-[#2b6dcb]"
+    style={{
+      WebkitMaskImage: `url(${egLogo})`,
+      maskImage: `url(${egLogo})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+    }}
+    aria-label="Excellent Global"
+  />
+</a>
+
+    <CTA
+      event="click_whatsapp_header"
+      variant="whatsapp"
+      className="hidden sm:inline-flex !py-2.5 !px-5 !text-sm"
+    >
+      <MessageCircle className="h-4 w-4" /> WhatsApp
+    </CTA>
+  </div>
+</header>
 
       <main role="main" id="top">
+
         {/* HERO */}
         <section className="relative overflow-hidden bg-gradient-hero text-white">
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_60%,white,transparent_40%)]" />

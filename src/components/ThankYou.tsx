@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { pushEvent } from '@/utils/analytics';
 
 const WHATSAPP_URL =
   'https://wa.me/5519987837602?text=Ol%C3%A1!%20Acabei%20de%20preencher%20o%20formul%C3%A1rio%20e%20quero%20confirmar%20minha%20aula%20demonstrativa%20gr%C3%A1tis%20na%20Excellent%20Global.';
 
-export default function ThankYou() {
-  const navigate = useNavigate();
+interface ThankYouProps {
+  onBackClick?: () => void;
+}
+
+export default function ThankYou({ onBackClick }: ThankYouProps) {
 
   useEffect(() => {
     // Fire conversion event
@@ -58,7 +60,7 @@ export default function ThankYou() {
         </div>
 
         <button
-          onClick={() => navigate('/')}
+          onClick={onBackClick}
           className="text-gray-500 text-sm hover:text-gray-300 transition-colors underline"
         >
           Voltar ao início
