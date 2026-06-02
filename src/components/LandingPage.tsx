@@ -61,17 +61,22 @@ function LandingPage() {
       {/* Header */}
 <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/60">
   <div className="mx-auto max-w-7xl flex items-center justify-between px-5 py-3.5">
-    <a href="#top" className="flex items-center gap-3">
-      <img
-        src={egLogo}
-        alt="Excellent Global"
-        className="h-10 w-auto object-contain"
-      />
-
-      <span className="text-base sm:text-lg font-extrabold text-primary">
-        Excellent Global
-      </span>
-    </a>
+    <a href="#top" className="flex items-center">
+  <span
+    className="block h-11 w-[180px] bg-[#2b6dcb]"
+    style={{
+      WebkitMaskImage: `url(${egLogo})`,
+      maskImage: `url(${egLogo})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+    }}
+    aria-label="Excellent Global"
+  />
+</a>
 
     <CTA
       event="click_whatsapp_header"
