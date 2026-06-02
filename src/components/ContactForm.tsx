@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { trackFormSubmit, trackCTAClick } from '@/utils/analytics';
-import { useNavigate } from 'react-router-dom';
 
 const WHATSAPP_URL =
   'https://wa.me/5519987837602?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20demonstrativa%20gr%C3%A1tis%20na%20Excellent%20Global.';
 
-export default function ContactForm() {
-  const navigate = useNavigate();
+interface ContactFormProps {
+  onSuccess?: () => void;
+}
+
+export default function ContactForm({ onSuccess }: ContactFormProps) {
   const [form, setForm] = useState({ nome: '', whatsapp: '', motivacao: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,7 +37,7 @@ export default function ContactForm() {
 
       if (res.ok) {
         trackFormSubmit();
-        navigate('/obrigado');
+        onSuccess?.();
       } else {
         throw new Error('Erro ao enviar');
       }
