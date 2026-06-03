@@ -111,6 +111,8 @@ function AgendamentoSection() {
           ]
         : [];
 
+  const podeEnviar = Boolean(nome && email && data && horario && diaSemana !== 0);
+
   const dataFormatada = data
     ? new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR")
     : "";
@@ -274,7 +276,12 @@ Aguardo a confirmação do professor.
             <button
               type="button"
               onClick={enviarWhatsApp}
-              className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp text-whatsapp-foreground px-7 py-4 text-base font-bold shadow-soft hover:brightness-110 transition active:scale-[0.98]"
+              disabled={!podeEnviar}
+              className={`mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-base font-bold shadow-soft transition active:scale-[0.98] ${
+                podeEnviar
+                  ? "bg-whatsapp text-whatsapp-foreground hover:brightness-110 cursor-pointer"
+                  : "bg-muted text-muted-foreground cursor-not-allowed opacity-60"
+              }`}
             >
               <MessageCircle className="h-5 w-5" />
               Enviar solicitação pelo WhatsApp
