@@ -81,6 +81,7 @@ function AgendamentoSection() {
   const [horario, setHorario] = useState("");
   const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
   const [carregando, setCarregando] = useState(false);
+  const [agora, setAgora] = useState(new Date());
 
   const hoje = new Date();
   const ano = hoje.getFullYear();
@@ -118,6 +119,8 @@ function AgendamentoSection() {
 
   const horarioSelecionadoId = data && horario ? `${data}-${horario}` : "";
 
+const horarioSelecionadoPassou = horario ? new Date(`${data}T${horario}:00`) <= agora : false;
+
 const podeEnviar = Boolean(
   nome &&
   email &&
@@ -125,6 +128,7 @@ const podeEnviar = Boolean(
   horario &&
   diaSemana !== 0 &&
   !horariosReservados.includes(horarioSelecionadoId) &&
+  !horarioSelecionadoPassou &&
   !carregando
 );
 
@@ -157,10 +161,10 @@ const carregarHorariosReservados = async () => {
     return;
   }
 
-  if (diaSemana === 0) {
-    alert("Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.");
-    return;
-  }
+  if (new Date(`${data}T${horario}:00`) <= new Date()) {
+  alert("Esse horário já passou. Escolha um horário disponível.");
+  return;
+}
 
   const horarioId = `${data}-${horario}`;
 
@@ -219,6 +223,22 @@ Aguardo a confirmação do professor.
   useEffect(() => {
   carregarHorariosReservados();
 }, []);
+
+useEffect(() => {
+  const timer = window.setInterval(() => {
+    setAgora(new Date());
+  }, 60000);
+
+  return () => window.clearInterval(timer);
+}, []);
+
+const horarioJaPassou = (h: string) => {
+  if (!data) return false;
+
+  const dataHorarioSelecionado = new Date(`${data}T${h}:00`);
+
+  return dataHorarioSelecionado <= agora;
+};
 
   return (
     <section id="agendamento" className="bg-background py-16 md:py-24">
@@ -324,26 +344,28 @@ Aguardo a confirmação do professor.
   {horarios.map((h) => {
     const horarioId = `${data}-${h}`;
     const estaReservado = horariosReservados.includes(horarioId);
+    const estaNoPassado = horarioJaPassou(h);
+    const estaBloqueado = estaReservado || estaNoPassado;
 
     return (
       <button
         key={h}
         type="button"
-        disabled={estaReservado}
+        disabled={estaBloqueado}
         onClick={() => {
-          if (!estaReservado) {
+          if (!estaBloqueado) {
             setHorario(h);
           }
         }}
         className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
-          estaReservado
+          estaBloqueado
             ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50"
             : horario === h
               ? "bg-primary text-primary-foreground border-primary shadow-soft"
               : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
         }`}
       >
-        {estaReservado ? `${h} ocupado` : h}
+        {estaReservado ? `${h} ocupado` : estaNoPassado ? `${h} passou` : h}
       </button>
     );
   })}
