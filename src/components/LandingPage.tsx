@@ -555,22 +555,30 @@ function LandingPage() {
                 className="relative w-full h-auto rounded-3xl shadow-elegant object-cover aspect-[3/2]"
               />
 
-              <div className="absolute -bottom-5 -left-5 bg-white text-foreground rounded-2xl p-4 shadow-elegant flex items-center gap-3 max-w-[230px]">
+              <div className="absolute -bottom-5 -left-5 bg-white text-foreground rounded-2xl p-4 shadow-elegant flex items-center gap-3 max-w-[400px]">
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="h-9 w-9 rounded-full bg-gradient-accent border-2 border-white" />
                   ))}
                 </div>
 
-                <div>
-                  <div className="flex text-[oklch(0.78_0.17_75)]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                    ))}
-                  </div>
+                <a
+  href="https://www.google.com/search?q=excellent+global+limeira"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Ver avaliações da Excellent Global no Google"
+  className="group block"
+>
+  <div className="flex items-center gap-1 text-[oklch(0.78_0.17_75)]">
+    {[...Array(5)].map((_, i) => (
+      <Star key={i} className="h-3.5 w-3.5 fill-current" />
+    ))}
+  </div>
 
-                  <p className="text-xs text-muted-foreground font-medium">+4.000 alunos atendidos</p>
-                </div>
+  <p className="mt-1 text-xs text-muted-foreground font-medium group-hover:text-primary transition-colors">
+    Avaliações no Google<br></br>+4.000 alunos atendidos
+  </p>
+</a>
               </div>
             </div>
           </div>
@@ -1058,10 +1066,6 @@ function LandingPage() {
               >
                 <Sparkles className="h-5 w-5" /> Quero minha aula demonstrativa grátis
               </a>
-
-              <CTA event="click_whatsapp_final_secondary" variant="secondary">
-                <MessageCircle className="h-5 w-5" /> Falar com a equipe no WhatsApp
-              </CTA>
             </div>
 
             <p className="mt-4 text-sm text-white/75">
