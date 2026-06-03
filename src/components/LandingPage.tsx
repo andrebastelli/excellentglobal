@@ -69,6 +69,8 @@ function CTA({
 function AgendamentoSection() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
+  const [objetivo, setObjetivo] = useState("");
+  const [nivel, setNivel] = useState("");
   const [data, setData] = useState("");
   const [horario, setHorario] = useState("");
   const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
@@ -117,6 +119,8 @@ const horarioSelecionadoPassou = horario ? new Date(`${data}T${horario}:00`) <= 
 const podeEnviar = Boolean(
   nome &&
   email &&
+  objetivo &&
+  nivel &&
   data &&
   horario &&
   diaSemana !== 0 &&
@@ -149,10 +153,10 @@ const carregarHorariosReservados = async () => {
 };
 
   const enviarWhatsApp = async () => {
-  if (!nome || !email || !data || !horario) {
-    alert("Preencha nome, e-mail, data e horário antes de enviar.");
-    return;
-  }
+  if (!nome || !email || !objetivo || !nivel || !data || !horario) {
+  alert("Preencha nome, e-mail, objetivo, nível, data e horário antes de enviar.");
+  return;
+}
 
 if (new Date(`${data}T${horario}:00`) <= new Date()) {
   alert("Esse horário já passou. Escolha um horário disponível.");
@@ -172,11 +176,13 @@ if (new Date(`${data}T${horario}:00`) <= new Date()) {
     const response = await fetch(GOOGLE_SHEETS_API_URL, {
       method: "POST",
       body: JSON.stringify({
-        nome,
-        email,
-        data,
-        horario,
-      }),
+  nome,
+  email,
+  objetivo,
+  nivel,
+  data,
+  horario,
+}),
     });
 
     const result = await response.json();
@@ -196,11 +202,13 @@ Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
 
 Nome: ${nome}
 E-mail: ${email}
+Objetivo do aprendizado: ${objetivo}
+Nível de conhecimento: ${nivel}
 Data escolhida: ${dataFormatada}
 Horário escolhido: ${horario}
 
 Aguardo a confirmação do professor.
-    `.trim();
+`.trim();
 
     const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
 
@@ -285,6 +293,44 @@ const horarioJaPassou = (h: string) => {
                   className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                 />
               </div>
+
+              <div>
+  <label htmlFor="objetivo" className="block text-sm font-semibold text-foreground mb-2">
+    Qual o objetivo do aprendizado?
+  </label>
+
+  <select
+    id="objetivo"
+    value={objetivo}
+    onChange={(e) => setObjetivo(e.target.value)}
+    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+  >
+    <option value="">Selecione uma opção</option>
+    <option value="Viajar fora do país">Viajar fora do país</option>
+    <option value="Ser promovido no trabalho">Ser promovido no trabalho</option>
+    <option value="Fazer intercâmbio">Fazer intercâmbio</option>
+    <option value="Outro">Outro</option>
+  </select>
+</div>
+
+<div>
+  <label htmlFor="nivel" className="block text-sm font-semibold text-foreground mb-2">
+    Qual o seu nível de conhecimento?
+  </label>
+
+  <select
+    id="nivel"
+    value={nivel}
+    onChange={(e) => setNivel(e.target.value)}
+    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+  >
+    <option value="">Selecione uma opção</option>
+    <option value="Básico">Básico</option>
+    <option value="Intermediário">Intermediário</option>
+    <option value="Avançado">Avançado</option>
+    <option value="Fluente">Fluente</option>
+  </select>
+</div>
 
               <div>
                 <label htmlFor="data" className="block text-sm font-semibold text-foreground mb-2">
