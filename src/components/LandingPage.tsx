@@ -284,7 +284,7 @@ Aguardo a confirmação do professor.
               }`}
             >
               <MessageCircle className="h-5 w-5" />
-              Enviar solicitação pelo WhatsApp
+              Agendar Aula pelo WhatsApp
             </button>
 
             <p className="mt-3 text-center text-xs text-muted-foreground">
