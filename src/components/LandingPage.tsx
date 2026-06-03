@@ -62,11 +62,9 @@ function CTA({
 
   return (
     <a
-      href={wa(event)}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="#agendamento"
       data-event={event}
-      aria-label="Falar com a Excellent Global no WhatsApp"
+      aria-label="Ir para o agendamento da aula gratuita"
       className={`${base} ${styles} ${className}`}
     >
       {children}
@@ -1080,11 +1078,9 @@ function LandingPage() {
 
       {/* Botão flutuante WhatsApp mobile */}
       <a
-        href={wa("click_whatsapp_float")}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-event="click_whatsapp_float"
-        aria-label="Falar com a Excellent Global no WhatsApp"
+        href="#agendamento"
+        data-event="click_agendamento_float"
+        aria-label="Ir para o agendamento da aula gratuita"
         className="md:hidden fixed bottom-5 right-5 z-50 h-14 w-14 rounded-full bg-whatsapp text-whatsapp-foreground grid place-items-center shadow-elegant active:scale-95 transition"
       >
         <MessageCircle className="h-7 w-7" />
