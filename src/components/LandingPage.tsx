@@ -320,13 +320,13 @@ function LandingPage() {
             />
           </a>
 
-          <CTA
-            event="click_whatsapp_header"
-            variant="whatsapp"
-            className="hidden sm:inline-flex !py-2.5 !px-5 !text-sm"
+          <a
+            href="#agendamento"
+            className="hidden sm:inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp text-whatsapp-foreground px-5 py-2.5 text-sm font-semibold shadow-soft hover:brightness-110 transition-all duration-200 active:scale-[0.98]"
           >
-            <MessageCircle className="h-4 w-4" /> WhatsApp
-          </CTA>
+            <MessageCircle className="h-4 w-4" />
+            Agendar Aula Gratuita
+          </a>
         </div>
       </header>
 
