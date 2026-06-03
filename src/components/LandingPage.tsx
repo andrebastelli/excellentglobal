@@ -137,11 +137,13 @@ const carregarHorariosReservados = async () => {
     const response = await fetch(`${GOOGLE_SHEETS_API_URL}?action=listar`);
     const result = await response.json();
 
-    if (!result.ok) return;
+    if (!result.ok || !Array.isArray(result.agendamentos)) {
+      return;
+    }
 
-    const ocupados = result.agendamentos.map(
-      (item: { data: string; horario: string }) => `${item.data}-${item.horario}`
-    );
+    const ocupados = result.agendamentos
+      .map((item: { dataHora?: string }) => String(item.dataHora || "").trim())
+      .filter(Boolean);
 
     setHorariosReservados(ocupados);
   } catch (error) {
