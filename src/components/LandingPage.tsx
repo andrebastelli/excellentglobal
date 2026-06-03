@@ -31,12 +31,6 @@ const GOOGLE_SHEETS_API_URL =
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "5519999999999";
 
-const WHATSAPP_MSG =
-  "Olá! Tenho interesse no curso de inglês da Excellent Global e quero agendar minha aula demonstrativa gratuita.";
-
-const wa = (event: string) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MSG)}#${event}`;
-
 function CTA({
   event,
   variant = "primary",
