@@ -18,7 +18,7 @@ import {
   MapPin,
   Phone,
   ChevronDown,
-} from "lucide-react";
+} from "lucide-react"; 
 import egLogo from "@/assets/eg-logo.png";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -30,12 +30,6 @@ const GOOGLE_SHEETS_API_URL =
   "https://script.google.com/macros/s/AKfycbxUoeXRWbH4BhDmJ5p4gIlCWKD5hkeSmJ9M9-xW6hXiTp3X3Zyx_lPxmhLLbJsyaV2p/exec";
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "5519999999999";
-
-const WHATSAPP_MSG =
-  "Olá! Tenho interesse no curso de inglês da Excellent Global e quero agendar minha aula demonstrativa gratuita.";
-
-const wa = (event: string) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MSG)}#${event}`;
 
 function CTA({
   event,
@@ -62,11 +56,9 @@ function CTA({
 
   return (
     <a
-      href={wa(event)}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="#agendamento"
       data-event={event}
-      aria-label="Falar com a Excellent Global no WhatsApp"
+      aria-label="Ir para o agendamento da aula gratuita"
       className={`${base} ${styles} ${className}`}
     >
       {children}
@@ -77,6 +69,8 @@ function CTA({
 function AgendamentoSection() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
+  const [objetivo, setObjetivo] = useState("");
+  const [nivel, setNivel] = useState("");
   const [data, setData] = useState("");
   const [horario, setHorario] = useState("");
   const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
@@ -125,6 +119,8 @@ const horarioSelecionadoPassou = horario ? new Date(`${data}T${horario}:00`) <= 
 const podeEnviar = Boolean(
   nome &&
   email &&
+  objetivo &&
+  nivel &&
   data &&
   horario &&
   diaSemana !== 0 &&
@@ -157,10 +153,10 @@ const carregarHorariosReservados = async () => {
 };
 
   const enviarWhatsApp = async () => {
-  if (!nome || !email || !data || !horario) {
-    alert("Preencha nome, e-mail, data e horário antes de enviar.");
-    return;
-  }
+  if (!nome || !email || !objetivo || !nivel || !data || !horario) {
+  alert("Preencha nome, e-mail, objetivo, nível, data e horário antes de enviar.");
+  return;
+}
 
 if (new Date(`${data}T${horario}:00`) <= new Date()) {
   alert("Esse horário já passou. Escolha um horário disponível.");
@@ -180,11 +176,13 @@ if (new Date(`${data}T${horario}:00`) <= new Date()) {
     const response = await fetch(GOOGLE_SHEETS_API_URL, {
       method: "POST",
       body: JSON.stringify({
-        nome,
-        email,
-        data,
-        horario,
-      }),
+  nome,
+  email,
+  objetivo,
+  nivel,
+  data,
+  horario,
+}),
     });
 
     const result = await response.json();
@@ -204,11 +202,13 @@ Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
 
 Nome: ${nome}
 E-mail: ${email}
+Objetivo do aprendizado: ${objetivo}
+Nível de conhecimento: ${nivel}
 Data escolhida: ${dataFormatada}
 Horário escolhido: ${horario}
 
 Aguardo a confirmação do professor.
-    `.trim();
+`.trim();
 
     const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
 
@@ -293,6 +293,44 @@ const horarioJaPassou = (h: string) => {
                   className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                 />
               </div>
+
+              <div>
+  <label htmlFor="objetivo" className="block text-sm font-semibold text-foreground mb-2">
+    Qual o objetivo do aprendizado?
+  </label>
+
+  <select
+    id="objetivo"
+    value={objetivo}
+    onChange={(e) => setObjetivo(e.target.value)}
+    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+  >
+    <option value="">Selecione uma opção</option>
+    <option value="Viajar fora do país">Viajar fora do país</option>
+    <option value="Ser promovido no trabalho">Ser promovido no trabalho</option>
+    <option value="Fazer intercâmbio">Fazer intercâmbio</option>
+    <option value="Outro">Outro</option>
+  </select>
+</div>
+
+<div>
+  <label htmlFor="nivel" className="block text-sm font-semibold text-foreground mb-2">
+    Qual o seu nível de conhecimento?
+  </label>
+
+  <select
+    id="nivel"
+    value={nivel}
+    onChange={(e) => setNivel(e.target.value)}
+    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+  >
+    <option value="">Selecione uma opção</option>
+    <option value="Básico">Básico</option>
+    <option value="Intermediário">Intermediário</option>
+    <option value="Avançado">Avançado</option>
+    <option value="Fluente">Fluente</option>
+  </select>
+</div>
 
               <div>
                 <label htmlFor="data" className="block text-sm font-semibold text-foreground mb-2">
@@ -1074,17 +1112,23 @@ function LandingPage() {
         </div>
 
         <div className="mx-auto max-w-6xl px-5 mt-10 pt-6 border-t border-white/10 text-xs text-primary-foreground/60">
-          © {new Date().getFullYear()} Excellent Global — Curso de Inglês em Limeira. Todos os direitos reservados.
+          © {new Date().getFullYear()} Excellent Global — Curso de Inglês em Limeira. Todos os direitos reservados. Desenvolvido por{" "}
+<a
+  href="https://bastelliconsultoria.com.br/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-current/80 transition hover:text-current hover:underline underline-offset-4"
+>
+  Bastelli Consultoria
+</a>
         </div>
       </footer>
 
       {/* Botão flutuante WhatsApp mobile */}
       <a
-        href={wa("click_whatsapp_float")}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-event="click_whatsapp_float"
-        aria-label="Falar com a Excellent Global no WhatsApp"
+        href="#agendamento"
+        data-event="click_agendamento_float"
+        aria-label="Ir para o agendamento da aula gratuita"
         className="md:hidden fixed bottom-5 right-5 z-50 h-14 w-14 rounded-full bg-whatsapp text-whatsapp-foreground grid place-items-center shadow-elegant active:scale-95 transition"
       >
         <MessageCircle className="h-7 w-7" />
