@@ -20,7 +20,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import egLogo from "@/assets/eg-logo.png";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 // ============================================================
 // EDITE AQUI: número do WhatsApp ou defina VITE_WHATSAPP_NUMBER no .env
@@ -82,6 +82,7 @@ function AgendamentoSection() {
   const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
   const [carregando, setCarregando] = useState(false);
   const [agora, setAgora] = useState(new Date());
+  const inputDataRef = useRef<HTMLInputElement>(null);
 
   const hoje = new Date();
   const ano = hoje.getFullYear();
@@ -161,7 +162,7 @@ const carregarHorariosReservados = async () => {
     return;
   }
 
-  if (new Date(`${data}T${horario}:00`) <= new Date()) {
+if (new Date(`${data}T${horario}:00`) <= new Date()) {
   alert("Esse horário já passou. Escolha um horário disponível.");
   return;
 }
@@ -298,17 +299,24 @@ const horarioJaPassou = (h: string) => {
                   Data da aula experimental
                 </label>
                 <input
-                  id="data"
-                  type="date"
-                  min={dataMinima}
-                  value={data}
-                  onChange={async (e) => {
-                  setData(e.target.value);
-                  setHorario("");
-                  await carregarHorariosReservados();
-                  }}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                />
+                    ref={inputDataRef}
+                    id="data"
+                    type="date"
+                    min={dataMinima}
+                    value={data}
+                    onClick={() => {
+                      inputDataRef.current?.showPicker?.();
+                    }}
+                    onFocus={() => {
+                      inputDataRef.current?.showPicker?.();
+                    }}
+                    onChange={async (e) => {
+                      setData(e.target.value);
+                      setHorario("");
+                      await carregarHorariosReservados();
+                    }}
+                    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                  />
 
                 <p className="mt-2 text-xs text-muted-foreground">
                   Segunda a sexta: 10h às 20h. Sábado: 10h às 15h.
@@ -365,7 +373,7 @@ const horarioJaPassou = (h: string) => {
               : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
         }`}
       >
-        {estaReservado ? `${h} reservado` : h}
+        {estaReservado ? `${h} Reservado` : estaNoPassado ? `${h} Reservado` : h}
       </button>
     );
   })}
