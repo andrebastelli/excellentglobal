@@ -20,7 +20,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import egLogo from "@/assets/eg-logo.png";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 // ============================================================
 // EDITE AQUI: número do WhatsApp ou defina VITE_WHATSAPP_NUMBER no .env
@@ -81,6 +81,8 @@ function AgendamentoSection() {
   const [horario, setHorario] = useState("");
   const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
   const [carregando, setCarregando] = useState(false);
+  const [agora, setAgora] = useState(new Date());
+  const inputDataRef = useRef<HTMLInputElement>(null);
 
   const hoje = new Date();
   const ano = hoje.getFullYear();
@@ -116,7 +118,20 @@ function AgendamentoSection() {
           ]
         : [];
 
-  const podeEnviar = Boolean(nome && email && data && horario && diaSemana !== 0);
+  const horarioSelecionadoId = data && horario ? `${data}-${horario}` : "";
+
+const horarioSelecionadoPassou = horario ? new Date(`${data}T${horario}:00`) <= agora : false;
+
+const podeEnviar = Boolean(
+  nome &&
+  email &&
+  data &&
+  horario &&
+  diaSemana !== 0 &&
+  !horariosReservados.includes(horarioSelecionadoId) &&
+  !horarioSelecionadoPassou &&
+  !carregando
+);
 
   const dataFormatada = data
     ? new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR")
@@ -127,11 +142,13 @@ const carregarHorariosReservados = async () => {
     const response = await fetch(`${GOOGLE_SHEETS_API_URL}?action=listar`);
     const result = await response.json();
 
-    if (!result.ok) return;
+    if (!result.ok || !Array.isArray(result.agendamentos)) {
+      return;
+    }
 
-    const ocupados = result.agendamentos.map(
-      (item: { data: string; horario: string }) => `${item.data}-${item.horario}`
-    );
+    const ocupados = result.agendamentos
+      .map((item: { dataHora?: string }) => String(item.dataHora || "").trim())
+      .filter(Boolean);
 
     setHorariosReservados(ocupados);
   } catch (error) {
@@ -145,10 +162,10 @@ const carregarHorariosReservados = async () => {
     return;
   }
 
-  if (diaSemana === 0) {
-    alert("Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.");
-    return;
-  }
+if (new Date(`${data}T${horario}:00`) <= new Date()) {
+  alert("Esse horário já passou. Escolha um horário disponível.");
+  return;
+}
 
   const horarioId = `${data}-${horario}`;
 
@@ -180,6 +197,8 @@ const carregarHorariosReservados = async () => {
 
     setHorariosReservados((prev) => [...prev, horarioId]);
 
+    await carregarHorariosReservados();
+
     const mensagem = `
 Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
 
@@ -205,6 +224,22 @@ Aguardo a confirmação do professor.
   useEffect(() => {
   carregarHorariosReservados();
 }, []);
+
+useEffect(() => {
+  const timer = window.setInterval(() => {
+    setAgora(new Date());
+  }, 60000);
+
+  return () => window.clearInterval(timer);
+}, []);
+
+const horarioJaPassou = (h: string) => {
+  if (!data) return false;
+
+  const dataHorarioSelecionado = new Date(`${data}T${h}:00`);
+
+  return dataHorarioSelecionado <= agora;
+};
 
   return (
     <section id="agendamento" className="bg-background py-16 md:py-24">
@@ -264,16 +299,24 @@ Aguardo a confirmação do professor.
                   Data da aula experimental
                 </label>
                 <input
-                  id="data"
-                  type="date"
-                  min={dataMinima}
-                  value={data}
-                  onChange={(e) => {
-                    setData(e.target.value);
-                    setHorario("");
-                  }}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                />
+                    ref={inputDataRef}
+                    id="data"
+                    type="date"
+                    min={dataMinima}
+                    value={data}
+                    onClick={() => {
+                      inputDataRef.current?.showPicker?.();
+                    }}
+                    onFocus={() => {
+                      inputDataRef.current?.showPicker?.();
+                    }}
+                    onChange={async (e) => {
+                      setData(e.target.value);
+                      setHorario("");
+                      await carregarHorariosReservados();
+                    }}
+                    className="w-full cursor-pointer rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                  />
 
                 <p className="mt-2 text-xs text-muted-foreground">
                   Segunda a sexta: 10h às 20h. Sábado: 10h às 15h.
@@ -306,21 +349,35 @@ Aguardo a confirmação do professor.
                 </p>
 
                 <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {horarios.map((h) => (
-                    <button
-                      key={h}
-                      type="button"
-                      onClick={() => setHorario(h)}
-                      className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
-                        horario === h
-                          ? "bg-primary text-primary-foreground border-primary shadow-soft"
-                          : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
-                      }`}
-                    >
-                      {h}
-                    </button>
-                  ))}
-                </div>
+  {horarios.map((h) => {
+    const horarioId = `${data}-${h}`;
+    const estaReservado = horariosReservados.includes(horarioId);
+    const estaNoPassado = horarioJaPassou(h);
+    const estaBloqueado = estaReservado || estaNoPassado;
+
+    return (
+      <button
+        key={h}
+        type="button"
+        disabled={estaBloqueado}
+        onClick={() => {
+          if (!estaBloqueado) {
+            setHorario(h);
+          }
+        }}
+        className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
+          estaBloqueado
+            ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50"
+            : horario === h
+              ? "bg-primary text-primary-foreground border-primary shadow-soft"
+              : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
+        }`}
+      >
+        {estaReservado ? `${h} Reservado` : estaNoPassado ? `${h} Reservado` : h}
+      </button>
+    );
+  })}
+</div>
 
                 {horario && (
                   <div className="mt-6 rounded-2xl bg-primary/5 border border-primary/10 p-4">
