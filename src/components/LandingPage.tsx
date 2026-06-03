@@ -365,7 +365,7 @@ const horarioJaPassou = (h: string) => {
               : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
         }`}
       >
-        {estaReservado ? `${h} ocupado` : estaNoPassado ? `${h} passou` : h}
+        {estaReservado ? `${h} ocupado` : h}
       </button>
     );
   })}
