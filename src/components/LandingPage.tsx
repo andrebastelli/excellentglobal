@@ -116,7 +116,17 @@ function AgendamentoSection() {
           ]
         : [];
 
-  const podeEnviar = Boolean(nome && email && data && horario && diaSemana !== 0);
+  const horarioSelecionadoId = data && horario ? `${data}-${horario}` : "";
+
+const podeEnviar = Boolean(
+  nome &&
+  email &&
+  data &&
+  horario &&
+  diaSemana !== 0 &&
+  !horariosReservados.includes(horarioSelecionadoId) &&
+  !carregando
+);
 
   const dataFormatada = data
     ? new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR")
@@ -179,6 +189,8 @@ const carregarHorariosReservados = async () => {
     }
 
     setHorariosReservados((prev) => [...prev, horarioId]);
+
+    await carregarHorariosReservados();
 
     const mensagem = `
 Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
@@ -268,9 +280,10 @@ Aguardo a confirmação do professor.
                   type="date"
                   min={dataMinima}
                   value={data}
-                  onChange={(e) => {
-                    setData(e.target.value);
-                    setHorario("");
+                  onChange={async (e) => {
+                  setData(e.target.value);
+                  setHorario("");
+                  await carregarHorariosReservados();
                   }}
                   className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                 />
@@ -306,21 +319,33 @@ Aguardo a confirmação do professor.
                 </p>
 
                 <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {horarios.map((h) => (
-                    <button
-                      key={h}
-                      type="button"
-                      onClick={() => setHorario(h)}
-                      className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
-                        horario === h
-                          ? "bg-primary text-primary-foreground border-primary shadow-soft"
-                          : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
-                      }`}
-                    >
-                      {h}
-                    </button>
-                  ))}
-                </div>
+  {horarios.map((h) => {
+    const horarioId = `${data}-${h}`;
+    const estaReservado = horariosReservados.includes(horarioId);
+
+    return (
+      <button
+        key={h}
+        type="button"
+        disabled={estaReservado}
+        onClick={() => {
+          if (!estaReservado) {
+            setHorario(h);
+          }
+        }}
+        className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
+          estaReservado
+            ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50"
+            : horario === h
+              ? "bg-primary text-primary-foreground border-primary shadow-soft"
+              : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
+        }`}
+      >
+        {estaReservado ? `${h} ocupado` : h}
+      </button>
+    );
+  })}
+</div>
 
                 {horario && (
                   <div className="mt-6 rounded-2xl bg-primary/5 border border-primary/10 p-4">
