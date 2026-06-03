@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import heroImg from "@/assets/hero-classroom.jpg";
 import schoolImg from "@/assets/school-space.jpg";
 import groupImg from "@/assets/group-class.jpg";
@@ -21,6 +20,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import egLogo from "@/assets/eg-logo.png";
+import { useState, type ReactNode } from "react";
 
 
 // ============================================================
@@ -68,6 +68,225 @@ function CTA({
     >
       {children}
     </a>
+  );
+}
+
+function AgendamentoSection() {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [data, setData] = useState("");
+  const [horario, setHorario] = useState("");
+
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+  const dia = String(hoje.getDate()).padStart(2, "0");
+  const dataMinima = `${ano}-${mes}-${dia}`;
+
+  const getDiaSemana = (dataSelecionada: string) => {
+    if (!dataSelecionada) return null;
+
+    const dataLocal = new Date(`${dataSelecionada}T00:00:00`);
+    return dataLocal.getDay();
+  };
+
+  const diaSemana = getDiaSemana(data);
+
+  const horarios =
+    diaSemana === 6
+      ? ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"]
+      : diaSemana !== null && diaSemana >= 1 && diaSemana <= 5
+        ? [
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+          ]
+        : [];
+
+  const dataFormatada = data
+    ? new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR")
+    : "";
+
+  const enviarWhatsApp = () => {
+    if (!nome || !email || !data || !horario) {
+      alert("Preencha nome, e-mail, data e horário antes de enviar.");
+      return;
+    }
+
+    if (diaSemana === 0) {
+      alert("Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.");
+      return;
+    }
+
+    const mensagem = `
+Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
+
+Nome: ${nome}
+E-mail: ${email}
+Data escolhida: ${dataFormatada}
+Horário escolhido: ${horario}
+
+Aguardo a confirmação do professor.
+    `.trim();
+
+    const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <section id="agendamento" className="bg-background py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-5">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
+            AULA EXPERIMENTAL GRATUITA
+          </span>
+
+          <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-foreground">
+            Escolha o melhor dia e horário para sua aula demonstrativa
+          </h2>
+
+          <p className="mt-4 text-muted-foreground text-base md:text-lg">
+            Preencha seus dados, escolha uma data e selecione um horário disponível.
+            Depois, envie a solicitação pelo WhatsApp para confirmação do professor.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+          <div className="rounded-3xl border border-border bg-card p-6 md:p-8 shadow-soft">
+            <h3 className="text-xl font-extrabold text-foreground">
+              Seus dados
+            </h3>
+
+            <div className="mt-6 space-y-4">
+              <div>
+                <label htmlFor="nome" className="block text-sm font-semibold text-foreground mb-2">
+                  Nome
+                </label>
+                <input
+                  id="nome"
+                  type="text"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder="Digite seu nome"
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
+                  E-mail
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Digite seu e-mail"
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="data" className="block text-sm font-semibold text-foreground mb-2">
+                  Data da aula experimental
+                </label>
+                <input
+                  id="data"
+                  type="date"
+                  min={dataMinima}
+                  value={data}
+                  onChange={(e) => {
+                    setData(e.target.value);
+                    setHorario("");
+                  }}
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Segunda a sexta: 10h às 20h. Sábado: 10h às 15h.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-border bg-white p-6 md:p-8 shadow-elegant">
+            <h3 className="text-xl font-extrabold text-foreground">
+              Horários disponíveis
+            </h3>
+
+            {!data && (
+              <p className="mt-4 text-muted-foreground">
+                Primeiro escolha uma data para visualizar os horários disponíveis.
+              </p>
+            )}
+
+            {data && diaSemana === 0 && (
+              <div className="mt-5 rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">
+                Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.
+              </div>
+            )}
+
+            {data && diaSemana !== 0 && (
+              <>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Data selecionada: <strong className="text-foreground">{dataFormatada}</strong>
+                </p>
+
+                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {horarios.map((h) => (
+                    <button
+                      key={h}
+                      type="button"
+                      onClick={() => setHorario(h)}
+                      className={`rounded-xl border px-4 py-3 text-sm font-bold transition ${
+                        horario === h
+                          ? "bg-primary text-primary-foreground border-primary shadow-soft"
+                          : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
+                      }`}
+                    >
+                      {h}
+                    </button>
+                  ))}
+                </div>
+
+                {horario && (
+                  <div className="mt-6 rounded-2xl bg-primary/5 border border-primary/10 p-4">
+                    <p className="text-sm text-muted-foreground">
+                      Horário escolhido:
+                    </p>
+                    <p className="mt-1 font-extrabold text-primary">
+                      {dataFormatada} às {horario}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+
+            <button
+              type="button"
+              onClick={enviarWhatsApp}
+              className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp text-whatsapp-foreground px-7 py-4 text-base font-bold shadow-soft hover:brightness-110 transition active:scale-[0.98]"
+            >
+              <MessageCircle className="h-5 w-5" />
+              Enviar solicitação pelo WhatsApp
+            </button>
+
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              O horário será confirmado pelo professor após o envio.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -193,34 +412,7 @@ function LandingPage() {
           </div>
         </section>
 
-        {/* AGENDAMENTO */}
-<section id="agendamento" className="bg-background py-16 md:py-24">
-  <div className="mx-auto max-w-6xl px-5">
-    <div className="text-center max-w-3xl mx-auto mb-10">
-      <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
-        AULA EXPERIMENTAL GRATUITA
-      </span>
-
-      <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-foreground">
-        Escolha o melhor dia e horário para sua aula demonstrativa
-      </h2>
-
-      <p className="mt-4 text-muted-foreground text-base md:text-lg">
-        Agende sua aula experimental gratuita e conheça a metodologia da Excellent Global
-        na prática, com foco em conversação real.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-border bg-white shadow-elegant overflow-hidden">
-      <iframe
-        src="https://calendly.com/performancebastelli3/30min?hide_gdpr_banner=1"
-        title="Agendamento da aula experimental gratuita"
-        className="w-full h-[700px] border-0"
-        loading="lazy"
-      />
-    </div>
-  </div>
-</section>
+        <AgendamentoSection />
 
         {/* SEÇÃO 2 — DOR */}
         <section className="py-20 md:py-28">
