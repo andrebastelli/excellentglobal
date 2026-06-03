@@ -562,15 +562,23 @@ function LandingPage() {
                   ))}
                 </div>
 
-                <div>
-                  <div className="flex text-[oklch(0.78_0.17_75)]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                    ))}
-                  </div>
+                <a
+  href="https://www.google.com/search?q=excellent+global+limeira"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Ver avaliações da Excellent Global no Google"
+  className="group block"
+>
+  <div className="flex items-center gap-1 text-[oklch(0.78_0.17_75)]">
+    {[...Array(5)].map((_, i) => (
+      <Star key={i} className="h-3.5 w-3.5 fill-current" />
+    ))}
+  </div>
 
-                  <p className="text-xs text-muted-foreground font-medium">+4.000 alunos atendidos</p>
-                </div>
+  <p className="mt-1 text-xs text-muted-foreground font-medium group-hover:text-primary transition-colors">
+    Avaliações no Google • +4.000 alunos atendidos
+  </p>
+</a>
               </div>
             </div>
           </div>
