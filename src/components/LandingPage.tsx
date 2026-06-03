@@ -1058,10 +1058,6 @@ function LandingPage() {
               >
                 <Sparkles className="h-5 w-5" /> Quero minha aula demonstrativa grátis
               </a>
-
-              <CTA event="click_whatsapp_final_secondary" variant="secondary">
-                <MessageCircle className="h-5 w-5" /> Falar com a equipe no WhatsApp
-              </CTA>
             </div>
 
             <p className="mt-4 text-sm text-white/75">
