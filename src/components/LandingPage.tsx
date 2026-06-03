@@ -555,7 +555,7 @@ function LandingPage() {
                 className="relative w-full h-auto rounded-3xl shadow-elegant object-cover aspect-[3/2]"
               />
 
-              <div className="absolute -bottom-5 -left-5 bg-white text-foreground rounded-2xl p-4 shadow-elegant flex items-center gap-3 max-w-[275px]">
+              <div className="absolute -bottom-5 -left-5 bg-white text-foreground rounded-2xl p-4 shadow-elegant flex items-center gap-3 max-w-[400px]">
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="h-9 w-9 rounded-full bg-gradient-accent border-2 border-white" />
