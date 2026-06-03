@@ -138,7 +138,7 @@ function LandingPage() {
               </ul>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <a
+               <a
   href="#agendamento"
   className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-primary px-6 py-3 text-sm font-bold shadow-lg hover:bg-white/90 transition-colors"
 >
@@ -194,33 +194,33 @@ function LandingPage() {
         </section>
 
         {/* AGENDAMENTO */}
-        <section id="agendamento" className="bg-background py-16 md:py-24">
-          <div className="mx-auto max-w-6xl px-5">
-            <div className="text-center max-w-3xl mx-auto mb-10">
-              <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
-                AULA EXPERIMENTAL GRATUITA
-              </span>
+<section id="agendamento" className="bg-background py-16 md:py-24">
+  <div className="mx-auto max-w-6xl px-5">
+    <div className="text-center max-w-3xl mx-auto mb-10">
+      <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
+        AULA EXPERIMENTAL GRATUITA
+      </span>
 
-              <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-foreground">
-                Escolha o melhor dia e horário para sua aula demonstrativa
-              </h2>
+      <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-foreground">
+        Escolha o melhor dia e horário para sua aula demonstrativa
+      </h2>
 
-              <p className="mt-4 text-muted-foreground text-base md:text-lg">
-                Agende sua aula experimental gratuita e conheça a metodologia da Excellent Global
-                na prática, com foco em conversação real.
-              </p>
-            </div>
+      <p className="mt-4 text-muted-foreground text-base md:text-lg">
+        Agende sua aula experimental gratuita e conheça a metodologia da Excellent Global
+        na prática, com foco em conversação real.
+      </p>
+    </div>
 
-            <div className="rounded-3xl border border-border bg-white shadow-elegant overflow-hidden">
-              <iframe
-                src="https://calendly.com/excellentglobal/aula-experimental"
-                title="Agendamento da aula experimental gratuita"
-                className="w-full h-[720px] border-0"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
+    <div className="rounded-3xl border border-border bg-white shadow-elegant overflow-hidden">
+      <iframe
+        src="https://calendly.com/performancebastelli3/30min?hide_gdpr_banner=1"
+        title="Agendamento da aula experimental gratuita"
+        className="w-full h-[700px] border-0"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
 
         {/* SEÇÃO 2 — DOR */}
         <section className="py-20 md:py-28">
