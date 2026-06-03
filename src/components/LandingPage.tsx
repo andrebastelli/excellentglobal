@@ -576,7 +576,7 @@ function LandingPage() {
   </div>
 
   <p className="mt-1 text-xs text-muted-foreground font-medium group-hover:text-primary transition-colors">
-    Avaliações no Google • +4.000 alunos atendidos
+    Avaliações no Google<br></br>• +4.000 alunos atendidos
   </p>
 </a>
               </div>
