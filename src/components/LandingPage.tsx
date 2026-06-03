@@ -20,12 +20,15 @@ import {
   ChevronDown,
 } from "lucide-react";
 import egLogo from "@/assets/eg-logo.png";
-import { useState, type ReactNode } from "react";
-
+import { useEffect, useState, type ReactNode } from "react";
 
 // ============================================================
 // EDITE AQUI: número do WhatsApp ou defina VITE_WHATSAPP_NUMBER no .env
 // ============================================================
+
+const GOOGLE_SHEETS_API_URL =
+  "https://script.google.com/macros/s/AKfycbxUoeXRWbH4BhDmJ5p4gIlCWKD5hkeSmJ9M9-xW6hXiTp3X3Zyx_lPxmhLLbJsyaV2p/exec";
+
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "5519999999999";
 
 const WHATSAPP_MSG =
@@ -76,6 +79,8 @@ function AgendamentoSection() {
   const [email, setEmail] = useState("");
   const [data, setData] = useState("");
   const [horario, setHorario] = useState("");
+  const [horariosReservados, setHorariosReservados] = useState<string[]>([]);
+  const [carregando, setCarregando] = useState(false);
 
   const hoje = new Date();
   const ano = hoje.getFullYear();
@@ -117,16 +122,63 @@ function AgendamentoSection() {
     ? new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR")
     : "";
 
-  const enviarWhatsApp = () => {
-    if (!nome || !email || !data || !horario) {
-      alert("Preencha nome, e-mail, data e horário antes de enviar.");
+const carregarHorariosReservados = async () => {
+  try {
+    const response = await fetch(`${GOOGLE_SHEETS_API_URL}?action=listar`);
+    const result = await response.json();
+
+    if (!result.ok) return;
+
+    const ocupados = result.agendamentos.map(
+      (item: { data: string; horario: string }) => `${item.data}-${item.horario}`
+    );
+
+    setHorariosReservados(ocupados);
+  } catch (error) {
+    console.error("Erro ao carregar horários reservados:", error);
+  }
+};
+
+  const enviarWhatsApp = async () => {
+  if (!nome || !email || !data || !horario) {
+    alert("Preencha nome, e-mail, data e horário antes de enviar.");
+    return;
+  }
+
+  if (diaSemana === 0) {
+    alert("Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.");
+    return;
+  }
+
+  const horarioId = `${data}-${horario}`;
+
+  if (horariosReservados.includes(horarioId)) {
+    alert("Esse horário já foi solicitado. Escolha outro horário disponível.");
+    return;
+  }
+
+  setCarregando(true);
+
+  try {
+    const response = await fetch(GOOGLE_SHEETS_API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        nome,
+        email,
+        data,
+        horario,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!result.ok) {
+      alert(result.message || "Esse horário não está disponível.");
+      await carregarHorariosReservados();
       return;
     }
 
-    if (diaSemana === 0) {
-      alert("Não temos agendamento aos domingos. Escolha uma data de segunda a sábado.");
-      return;
-    }
+    setHorariosReservados((prev) => [...prev, horarioId]);
 
     const mensagem = `
 Olá! Gostaria de solicitar o agendamento da minha aula experimental gratuita.
@@ -142,7 +194,17 @@ Aguardo a confirmação do professor.
     const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
 
     window.open(link, "_blank", "noopener,noreferrer");
-  };
+  } catch (error) {
+    alert("Não foi possível enviar o agendamento. Tente novamente.");
+    console.error(error);
+  } finally {
+    setCarregando(false);
+  }
+};
+
+  useEffect(() => {
+  carregarHorariosReservados();
+}, []);
 
   return (
     <section id="agendamento" className="bg-background py-16 md:py-24">
@@ -274,18 +336,18 @@ Aguardo a confirmação do professor.
             )}
 
             <button
-              type="button"
-              onClick={enviarWhatsApp}
-              disabled={!podeEnviar}
-              className={`mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-base font-bold shadow-soft transition active:scale-[0.98] ${
-                podeEnviar
-                  ? "bg-whatsapp text-whatsapp-foreground hover:brightness-110 cursor-pointer"
-                  : "bg-muted text-muted-foreground cursor-not-allowed opacity-60"
-              }`}
-            >
-              <MessageCircle className="h-5 w-5" />
-              Agendar Aula pelo WhatsApp
-            </button>
+  type="button"
+  onClick={enviarWhatsApp}
+  disabled={!podeEnviar || carregando}
+  className={`mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-base font-bold shadow-soft transition active:scale-[0.98] ${
+    podeEnviar && !carregando
+      ? "bg-whatsapp text-whatsapp-foreground hover:brightness-110 cursor-pointer"
+      : "bg-muted text-muted-foreground cursor-not-allowed opacity-60"
+  }`}
+>
+  <MessageCircle className="h-5 w-5" />
+  {carregando ? "Enviando..." : "Enviar solicitação pelo WhatsApp"}
+</button>
 
             <p className="mt-3 text-center text-xs text-muted-foreground">
               O horário será confirmado pelo professor após o envio.
