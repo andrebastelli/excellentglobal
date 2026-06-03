@@ -18,7 +18,7 @@ import {
   MapPin,
   Phone,
   ChevronDown,
-} from "lucide-react";
+} from "lucide-react"; 
 import egLogo from "@/assets/eg-logo.png";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
