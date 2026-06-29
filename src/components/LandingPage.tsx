@@ -62,10 +62,10 @@ function CTA({
 }
 
 function AgendamentoSection() {
-  const link = `https://wa.me/5519999999999?text=Olá! Quero agendar uma aula experimental.`;
+  const link = `https://wa.me/5519987837602?text=Olá! Quero agendar uma aula experimental.`;
 
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-b from-background to-secondary/40">
+    <section id="agendamento" className="relative py-20 md:py-28 bg-gradient-to-b from-background to-secondary/40">
       
       <div className="mx-auto max-w-4xl px-5">
         
