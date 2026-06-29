@@ -62,10 +62,10 @@ function CTA({
 }
 
 function AgendamentoSection() {
-  const link = `https://wa.me/5519999999999?text=Olá! Quero agendar uma aula experimental.`;
+  const link = `https://wa.me/5519987837602?text=Olá! Quero agendar uma aula experimental.`;
 
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-b from-background to-secondary/40">
+    <section id="agendamento" className="relative py-20 md:py-28 bg-gradient-to-b from-background to-secondary/40">
       
       <div className="mx-auto max-w-4xl px-5">
         
@@ -89,16 +89,20 @@ function AgendamentoSection() {
             Sem formulário. Sem espera. Clique no botão abaixo e fale direto com nossa equipe para escolher o melhor horário.
           </p>
 
-          {/* Benefícios */}
-          <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
-              ✔ Resposta rápida
+          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-primary/70" />
+              Resposta rápida
             </span>
-            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
-              ✔ Sem burocracia
+
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-primary/70" />
+              Sem burocracia
             </span>
-            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
-              ✔ Atendimento direto
+
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-primary/70" />
+              Atendimento direto
             </span>
           </div>
 
