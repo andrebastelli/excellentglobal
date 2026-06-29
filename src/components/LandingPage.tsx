@@ -61,40 +61,66 @@ function CTA({
   );
 }
 
-  function AgendamentoSection() {
-  const link = `https://wa.me/5519987837602?text=Olá! Quero agendar uma aula experimental.`;
+function AgendamentoSection() {
+  const link = `https://wa.me/5519999999999?text=Olá! Quero agendar uma aula experimental.`;
 
-   return (
-    <section id="agendamento" className="bg-background py-20 md:py-28">
-      <div className="mx-auto max-w-3xl px-5 text-center">
+  return (
+    <section className="relative py-20 md:py-28 bg-gradient-to-b from-background to-secondary/40">
+      
+      <div className="mx-auto max-w-4xl px-5">
         
-        <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
-          AULA EXPERIMENTAL GRATUITA
-        </span>
+        <div className="relative bg-card border border-border rounded-3xl p-8 md:p-12 shadow-elegant text-center overflow-hidden">
 
-        <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-foreground">
-          Agende sua aula pelo WhatsApp em poucos segundos
-        </h2>
+          {/* Glow decorativo */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />
 
-        <p className="mt-5 text-lg text-muted-foreground">
-          Clique no botão abaixo, fale direto com nossa equipe e escolha o melhor dia e horário para sua aula experimental.
-        </p>
+          {/* Badge */}
+          <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold tracking-wide">
+            AULA EXPERIMENTAL GRATUITA
+          </span>
 
-        <div className="mt-10">
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 rounded-full px-8 py-4 text-base font-bold bg-whatsapp text-whatsapp-foreground shadow-elegant hover:brightness-110 transition active:scale-[0.98]"
-          >
-            <MessageCircle className="h-5 w-5" />
-            Falar no WhatsApp agora
-          </a>
+          {/* Headline */}
+          <h2 className="mt-5 text-3xl md:text-5xl font-extrabold text-foreground leading-tight">
+            Fale com a escola agora e garanta sua aula gratuita
+          </h2>
+
+          {/* Subheadline */}
+          <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Sem formulário. Sem espera. Clique no botão abaixo e fale direto com nossa equipe para escolher o melhor horário.
+          </p>
+
+          {/* Benefícios */}
+          <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
+              ✔ Resposta rápida
+            </span>
+            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
+              ✔ Sem burocracia
+            </span>
+            <span className="bg-secondary px-4 py-2 rounded-full border border-border">
+              ✔ Atendimento direto
+            </span>
+          </div>
+
+          {/* Botão */}
+          <div className="mt-10">
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-full px-10 py-5 text-lg font-bold bg-whatsapp text-whatsapp-foreground shadow-elegant hover:brightness-110 hover:scale-[1.02] transition active:scale-[0.98]"
+            >
+              <MessageCircle className="h-6 w-6" />
+              Falar no WhatsApp agora
+            </a>
+          </div>
+
+          {/* Urgência */}
+          <p className="mt-5 text-sm text-muted-foreground">
+            Vagas limitadas para aula experimental esta semana
+          </p>
+
         </div>
-
-        <p className="mt-4 text-sm text-muted-foreground">
-          Atendimento rápido • Sem burocracia • Resposta em poucos minutos
-        </p>
       </div>
     </section>
   );
