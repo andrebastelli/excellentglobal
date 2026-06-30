@@ -293,7 +293,7 @@ function LandingPage() {
         <AgendamentoSection />
 
         {/* SEÇÃO 2 — DOR */}
-        <section className="py-20 md:py-28">
+        <section id="dor" className="py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-5 text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold">
               Você entende inglês, mas trava na hora de falar?
@@ -336,7 +336,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 3 — DIFERENCIAIS */}
-        <section className="py-20 md:py-28 bg-secondary/40">
+        <section id="diferenciais" className="py-20 md:py-28 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-5">
             <div className="text-center max-w-2xl mx-auto">
               <span className="text-sm font-bold text-primary uppercase tracking-wider">Por que escolher</span>
@@ -396,7 +396,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 4 — METODOLOGIA */}
-        <section className="py-20 md:py-28">
+        <section id="metodologia" className="py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5 grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="text-sm font-bold text-primary uppercase tracking-wider">Metodologia</span>
@@ -457,7 +457,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 5 — AULA DEMONSTRATIVA */}
-        <section className="py-20 md:py-28 bg-gradient-hero text-white relative overflow-hidden">
+        <section id="aula-demonstrativa" className="py-20 md:py-28 bg-gradient-hero text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_30%,white,transparent_40%)]" />
 
           <div className="relative mx-auto max-w-5xl px-5 text-center">
@@ -515,7 +515,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 6 — PROGRAMAS */}
-        <section className="py-20 md:py-28">
+        <section id="programas" className="py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5">
             <div className="text-center max-w-2xl mx-auto">
               <span className="text-sm font-bold text-primary uppercase tracking-wider">Programas</span>
@@ -558,7 +558,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 7 — PARA QUEM É */}
-        <section className="py-20 md:py-28 bg-secondary/40">
+        <section id="pra-quem-e" className="py-20 md:py-28 bg-secondary/40">
           <div className="mx-auto max-w-5xl px-5">
             <h2 className="text-3xl md:text-4xl font-extrabold text-center max-w-3xl mx-auto">
               O curso de inglês da Excellent Global é para você que...
@@ -585,7 +585,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 8 — INTERCÂMBIO */}
-        <section className="py-20 md:py-28">
+        <section id="intercambio" className="py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5 grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <img
@@ -621,7 +621,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 9 — DEPOIMENTOS */}
-        <section className="py-20 md:py-28 bg-secondary/40">
+        <section id="depoimentos" className="py-20 md:py-28 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-5">
             <h2 className="text-3xl md:text-4xl font-extrabold text-center">
               O que nossos alunos dizem
@@ -666,7 +666,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 10 — ESPAÇO FÍSICO */}
-        <section className="py-20 md:py-28">
+        <section id="escola" className="py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-extrabold">
@@ -702,7 +702,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 11 — FAQ */}
-        <section className="py-20 md:py-28 bg-secondary/40">
+        <section id="faq" className="py-20 md:py-28 bg-secondary/40">
           <div className="mx-auto max-w-3xl px-5">
             <h2 className="text-3xl md:text-4xl font-extrabold text-center">
               Perguntas frequentes
@@ -753,7 +753,7 @@ function LandingPage() {
         </section>
 
         {/* SEÇÃO 12 — CTA FINAL */}
-        <section className="py-20 md:py-28 bg-gradient-hero text-white text-center relative overflow-hidden">
+        <section id="cta" className="py-20 md:py-28 bg-gradient-hero text-white text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_50%_50%,white,transparent_50%)]" />
 
           <div className="relative mx-auto max-w-3xl px-5">
